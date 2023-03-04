@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  webserver:
+    image: puckel/docker-airflow:1.10.9
+    restart: "on-failure"
+    env_file:
+      - .env
+    environment:
+      - AIRFLOW__CORE__LOAD_EXAMPLES=true
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    volumes:
+      - ./dags:/usr/local/airflow/dags
+    ports:
+      - "8080:8080"
+    command: webserver
